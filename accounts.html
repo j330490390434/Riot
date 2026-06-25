@@ -26,11 +26,16 @@
   {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": "https://riotshop.xyz/accounts#product",
     "name": "Valorant Accounts",
     "url": "https://riotshop.xyz/accounts",
     "image": "https://riotshop.xyz/assets/logo.png",
     "description": "Full-access Valorant accounts across five regions with preview, original email, and lifetime warranty.",
-    "brand": { "@type": "Brand", "name": "Riot Shop" },
+    "brand": {
+      "@type": "Brand",
+      "name": "Riot Shop"
+    },
+    "sku": "valorant-accounts",
     "offers": {
       "@type": "AggregateOffer",
       "lowPrice": "19.99",
@@ -38,7 +43,14 @@
       "offerCount": 37,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://riotshop.xyz/accounts"
+      "itemCondition": "https://schema.org/NewCondition",
+      "url": "https://riotshop.xyz/accounts",
+      "seller": {
+        "@type": "Organization",
+        "name": "Riot Shop",
+        "url": "https://riotshop.xyz"
+      },
+      "priceValidUntil": "2027-06-25"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -50,21 +62,45 @@
     "review": [
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "Sofia K." },
+        "author": {
+          "@type": "Person",
+          "name": "Sofia K."
+        },
         "reviewBody": "Bought a Europe account with the Reaver Vandal. Preview matched what I received. Support resent credentials within 10 minutes after I typo'd my email.",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       },
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "David L." },
-        "reviewBody": "Clean site, easy to follow. Preview links made it simple to check skins before buying. Would recommend.",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
-      },
-      {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Thiago R." },
+        "author": {
+          "@type": "Person",
+          "name": "Thiago R."
+        },
         "reviewBody": "Latin America account for $40, exactly what the listing showed. Fast email delivery with clear login steps.",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Nina W."
+        },
+        "reviewBody": "Needed help late at night and still got a reply in 25 minutes. Came back for a second account.",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       }
     ]
   }

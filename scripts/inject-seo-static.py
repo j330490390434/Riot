@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -330,6 +332,9 @@ def main() -> None:
         **common,
         "site-header": header("reach"),
     })
+
+    schema_script = ROOT / "scripts" / "inject-product-schema.py"
+    subprocess.run([sys.executable, str(schema_script)], check=True)
 
 
 if __name__ == "__main__":

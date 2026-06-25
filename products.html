@@ -31,11 +31,367 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Available Products | Riot Shop",
-    "url": "https://riotshop.xyz/products",
-    "description": "Valorant Points from $9.99, full-access accounts, gun buddy service, and unban help with instant delivery.",
-    "isPartOf": { "@type": "WebSite", "name": "Riot Shop", "url": "https://riotshop.xyz" }
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://riotshop.xyz/products#webpage",
+        "name": "Available Products | Riot Shop",
+        "url": "https://riotshop.xyz/products",
+        "description": "Valorant Points from $9.99, full-access accounts, gun buddy service, and unban help with instant delivery.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Riot Shop",
+          "url": "https://riotshop.xyz"
+        },
+        "mainEntity": {
+          "@id": "https://riotshop.xyz/products#itemlist"
+        }
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://riotshop.xyz/products#itemlist",
+        "name": "Riot Shop Products",
+        "numberOfItems": 4,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://riotshop.xyz/valorant-points",
+            "item": {
+              "@type": "Product",
+              "@id": "https://riotshop.xyz/valorant-points#product",
+              "name": "Valorant Points",
+              "url": "https://riotshop.xyz/valorant-points",
+              "image": "https://riotshop.xyz/assets/logo.png",
+              "description": "Valorant Points bundles from $9.99 with gift card codes delivered by email after payment.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Riot Shop"
+              },
+              "sku": "valorant-points",
+              "offers": {
+                "@type": "AggregateOffer",
+                "lowPrice": "9.99",
+                "highPrice": "29.99",
+                "offerCount": 4,
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition",
+                "url": "https://riotshop.xyz/valorant-points",
+                "seller": {
+                  "@type": "Organization",
+                  "name": "Riot Shop",
+                  "url": "https://riotshop.xyz"
+                },
+                "priceValidUntil": "2027-06-25"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 14,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "review": [
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Marcus V."
+                  },
+                  "reviewBody": "Got 11,000 Valorant Points in about 8 minutes. Was skeptical at first but they actually replied when I asked about timing. Smooth checkout.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Jay F."
+                  },
+                  "reviewBody": "Third order here. Valorant Points prices are significantly better than in-game. Never had a failed delivery.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Ethan M."
+                  },
+                  "reviewBody": "Picked up 5,350 Valorant Points before a night session. Landed in under 12 minutes. No issues at all.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "url": "https://riotshop.xyz/accounts",
+            "item": {
+              "@type": "Product",
+              "@id": "https://riotshop.xyz/accounts#product",
+              "name": "Valorant Accounts",
+              "url": "https://riotshop.xyz/accounts",
+              "image": "https://riotshop.xyz/assets/logo.png",
+              "description": "Full-access Valorant accounts across five regions with preview, original email, and lifetime warranty.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Riot Shop"
+              },
+              "sku": "valorant-accounts",
+              "offers": {
+                "@type": "AggregateOffer",
+                "lowPrice": "19.99",
+                "highPrice": "449.99",
+                "offerCount": 37,
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition",
+                "url": "https://riotshop.xyz/accounts",
+                "seller": {
+                  "@type": "Organization",
+                  "name": "Riot Shop",
+                  "url": "https://riotshop.xyz"
+                },
+                "priceValidUntil": "2027-06-25"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 22,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "review": [
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Sofia K."
+                  },
+                  "reviewBody": "Bought a Europe account with the Reaver Vandal. Preview matched what I received. Support resent credentials within 10 minutes after I typo'd my email.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Thiago R."
+                  },
+                  "reviewBody": "Latin America account for $40, exactly what the listing showed. Fast email delivery with clear login steps.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Nina W."
+                  },
+                  "reviewBody": "Needed help late at night and still got a reply in 25 minutes. Came back for a second account.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "url": "https://riotshop.xyz/products",
+            "item": {
+              "@type": "Product",
+              "@id": "https://riotshop.xyz/products#product",
+              "name": "Riot Gun Buddy Service",
+              "url": "https://riotshop.xyz/products",
+              "image": "https://riotshop.xyz/assets/logo.png",
+              "description": "Riot Gun Buddy service with fast delivery. No login info required — only your Riot ID and email.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Riot Shop"
+              },
+              "sku": "gun-buddy-service",
+              "offers": {
+                "@type": "Offer",
+                "price": "49.99",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition",
+                "url": "https://riotshop.xyz/products",
+                "seller": {
+                  "@type": "Organization",
+                  "name": "Riot Shop",
+                  "url": "https://riotshop.xyz"
+                },
+                "priceValidUntil": "2027-06-25"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 36,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "review": [
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Marcus V."
+                  },
+                  "reviewBody": "Got 11,000 Valorant Points in about 8 minutes. Was skeptical at first but they actually replied when I asked about timing. Smooth checkout.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Sofia K."
+                  },
+                  "reviewBody": "Bought a Europe account with the Reaver Vandal. Preview matched what I received. Support resent credentials within 10 minutes after I typo'd my email.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Jay F."
+                  },
+                  "reviewBody": "Third order here. Valorant Points prices are significantly better than in-game. Never had a failed delivery.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "url": "https://riotshop.xyz/products",
+            "item": {
+              "@type": "Product",
+              "@id": "https://riotshop.xyz/products#product",
+              "name": "Unban Service",
+              "url": "https://riotshop.xyz/products",
+              "image": "https://riotshop.xyz/assets/logo.png",
+              "description": "Professional unban assistance for your Riot account. Fast delivery with no login info required.",
+              "brand": {
+                "@type": "Brand",
+                "name": "Riot Shop"
+              },
+              "sku": "unban-service",
+              "offers": {
+                "@type": "Offer",
+                "price": "99.99",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition",
+                "url": "https://riotshop.xyz/products",
+                "seller": {
+                  "@type": "Organization",
+                  "name": "Riot Shop",
+                  "url": "https://riotshop.xyz"
+                },
+                "priceValidUntil": "2027-06-25"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": 36,
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "review": [
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Marcus V."
+                  },
+                  "reviewBody": "Got 11,000 Valorant Points in about 8 minutes. Was skeptical at first but they actually replied when I asked about timing. Smooth checkout.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Sofia K."
+                  },
+                  "reviewBody": "Bought a Europe account with the Reaver Vandal. Preview matched what I received. Support resent credentials within 10 minutes after I typo'd my email.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                },
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Jay F."
+                  },
+                  "reviewBody": "Third order here. Valorant Points prices are significantly better than in-game. Never had a failed delivery.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
   }
   </script>
 </head>

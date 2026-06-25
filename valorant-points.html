@@ -32,11 +32,16 @@
   {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": "https://riotshop.xyz/valorant-points#product",
     "name": "Valorant Points",
     "url": "https://riotshop.xyz/valorant-points",
     "image": "https://riotshop.xyz/assets/logo.png",
     "description": "Valorant Points bundles from $9.99 with gift card codes delivered by email after payment.",
-    "brand": { "@type": "Brand", "name": "Riot Shop" },
+    "brand": {
+      "@type": "Brand",
+      "name": "Riot Shop"
+    },
+    "sku": "valorant-points",
     "offers": {
       "@type": "AggregateOffer",
       "lowPrice": "9.99",
@@ -44,7 +49,14 @@
       "offerCount": 4,
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://riotshop.xyz/valorant-points"
+      "itemCondition": "https://schema.org/NewCondition",
+      "url": "https://riotshop.xyz/valorant-points",
+      "seller": {
+        "@type": "Organization",
+        "name": "Riot Shop",
+        "url": "https://riotshop.xyz"
+      },
+      "priceValidUntil": "2027-06-25"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -56,15 +68,45 @@
     "review": [
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "Marcus V." },
+        "author": {
+          "@type": "Person",
+          "name": "Marcus V."
+        },
         "reviewBody": "Got 11,000 Valorant Points in about 8 minutes. Was skeptical at first but they actually replied when I asked about timing. Smooth checkout.",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       },
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "Jay F." },
+        "author": {
+          "@type": "Person",
+          "name": "Jay F."
+        },
         "reviewBody": "Third order here. Valorant Points prices are significantly better than in-game. Never had a failed delivery.",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Ethan M."
+        },
+        "reviewBody": "Picked up 5,350 Valorant Points before a night session. Landed in under 12 minutes. No issues at all.",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       }
     ]
   }

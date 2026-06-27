@@ -8,6 +8,6 @@ Allow: /
 Disallow: /payment
 Disallow: /payment.html
 
-Sitemap: https://riotshop.xyz/sitemap.xml
+Sitemap: https://riotshop.xyz/sitemap_index.xml
 
 # IndexNow key: https://riotshop.xyz/a7f3c9e2b1d84f6a.txt

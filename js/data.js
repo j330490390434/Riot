@@ -3,7 +3,6 @@ const RIOT_SHOP = {
   siteUrl: 'https://riotshop.xyz',
   ogImage: 'https://riotshop.xyz/assets/logo.png',
   supportPath: '/reach-us',
-  discountCode: 'RIOT50',
 
   seoKeywords: {
     global: [
@@ -491,10 +490,6 @@ const FAQ_ITEMS = [
   {
     q: 'What does full access mean on an account?',
     a: 'Full access means you receive the account credentials and the original email used to create the Riot account. You can change the password, update recovery info, and secure the account yourself.',
-  },
-  {
-    q: 'How do I use the RIOT50 discount code?',
-    a: 'On the checkout page (step 1 — Select payment method), enter RIOT50 in the Discount code field and click Apply. Your order total drops by 50% before you pay. The code works once per device after your first completed order.',
   },
   {
     q: 'How do I contact support?',

@@ -67,32 +67,36 @@ function renderOrderSummary(order, state = {}) {
 
 function renderDiscountBlock(state) {
   return `
-    <div class="payment-discount-block" data-field="discount-code">
-      <label class="form-label" for="discount-code">Discount code</label>
-      <div class="payment-discount-row">
-        <input
-          type="text"
-          id="discount-code"
-          class="form-input"
-          placeholder="e.g. RIOT50"
-          value="${state.discountCode || ''}"
-          ${state.discountApplied ? 'readonly' : ''}
-          autocomplete="off"
-          spellcheck="false"
-        >
+    <section class="payment-section-card glass-card" data-field="discount-code">
+      <h2 class="payment-section-title">Discount code</h2>
+      <p class="payment-section-sub">Optional — apply a promo code before you choose how to pay.</p>
+      <div class="payment-field-card">
+        <label class="form-label" for="discount-code">Enter code</label>
+        <div class="payment-discount-row">
+          <input
+            type="text"
+            id="discount-code"
+            class="form-input"
+            placeholder="Enter your code"
+            value="${state.discountCode || ''}"
+            ${state.discountApplied ? 'readonly' : ''}
+            autocomplete="off"
+            spellcheck="false"
+          >
+          ${state.discountApplied ? `
+            <button type="button" class="btn-secondary payment-discount-btn" id="btn-remove-discount">Remove</button>
+          ` : `
+            <button type="button" class="btn-secondary payment-discount-btn" id="btn-apply-discount">Apply</button>
+          `}
+        </div>
+        <p class="field-error" role="alert"></p>
         ${state.discountApplied ? `
-          <button type="button" class="btn-secondary payment-discount-btn" id="btn-remove-discount">Remove</button>
+          <p class="payment-discount-success">${state.discountCode} applied — 50% off this order.</p>
         ` : `
-          <button type="button" class="btn-secondary payment-discount-btn" id="btn-apply-discount">Apply</button>
+          <p class="payment-discount-hint">Have a welcome offer code? Enter it above and click Apply.</p>
         `}
       </div>
-      <p class="field-error" role="alert"></p>
-      ${state.discountApplied ? `
-        <p class="payment-discount-success">${state.discountCode} applied — 50% off this order.</p>
-      ` : `
-        <p class="payment-discount-hint">Have a code from our welcome offer? Enter RIOT50 for 50% off your first order.</p>
-      `}
-    </div>
+    </section>
   `;
 }
 
@@ -100,20 +104,22 @@ function renderStepMethod(order, state) {
   return `
     ${renderStepIndicator(1)}
     ${renderOrderSummary(order, state)}
-    <div class="payment-panel glass-card">
-      <h2 class="payment-panel-title">Select payment method</h2>
-      <p class="payment-panel-sub">Choose how you will pay for your order.</p>
+    <div class="payment-checkout-stack">
       ${renderDiscountBlock(state)}
-      <div class="payment-method-grid">
-        ${PAYMENT_METHODS.map((m) => `
-          <button type="button" class="payment-method-card${state.method === m.id ? ' is-selected' : ''}" data-method="${m.id}">
-            <span>${m.label}</span>
-          </button>
-        `).join('')}
-      </div>
-      <button type="button" class="btn-primary w-full py-3.5 mt-6" id="btn-step1-next" ${state.method ? '' : 'disabled'}>
-        Continue
-      </button>
+      <section class="payment-section-card glass-card">
+        <h2 class="payment-section-title">Select payment method</h2>
+        <p class="payment-section-sub">Choose how you will pay for your order.</p>
+        <div class="payment-method-grid">
+          ${PAYMENT_METHODS.map((m) => `
+            <button type="button" class="payment-method-card${state.method === m.id ? ' is-selected' : ''}" data-method="${m.id}">
+              <span>${m.label}</span>
+            </button>
+          `).join('')}
+        </div>
+        <button type="button" class="btn-primary w-full py-3.5 mt-6" id="btn-step1-next" ${state.method ? '' : 'disabled'}>
+          Continue
+        </button>
+      </section>
     </div>
   `;
 }
@@ -124,29 +130,31 @@ function renderStepEmail(order, state) {
   return `
     ${renderStepIndicator(2)}
     ${renderOrderSummary(order, state)}
-    <div class="payment-panel glass-card">
-      <h2 class="payment-panel-title">Delivery details</h2>
-      <p class="payment-panel-sub">
-        ${needsRiotId
-          ? 'Enter your Riot ID and the email where we should deliver your order.'
-          : 'Enter the email where we should send your order.'}
-      </p>
-      ${needsRiotId ? `
-        <div class="form-field" data-field="riot-id">
-          <label class="form-label" for="riot-id">Riot ID</label>
-          <input type="text" id="riot-id" class="form-input" placeholder="Username#TAG" value="${state.riotId || ''}" autocomplete="username">
+    <div class="payment-checkout-stack">
+      <section class="payment-section-card glass-card">
+        <h2 class="payment-section-title">Delivery details</h2>
+        <p class="payment-section-sub">
+          ${needsRiotId
+            ? 'We need your Riot ID and email to deliver this order.'
+            : 'Tell us where to send your order.'}
+        </p>
+        ${needsRiotId ? `
+          <div class="payment-field-card form-field" data-field="riot-id">
+            <label class="form-label" for="riot-id">Riot ID</label>
+            <input type="text" id="riot-id" class="form-input" placeholder="Username#TAG" value="${state.riotId || ''}" autocomplete="username">
+            <p class="field-error" role="alert"></p>
+          </div>
+        ` : ''}
+        <div class="payment-field-card form-field${needsRiotId ? ' mt-4' : ''}" data-field="delivery-email">
+          <label class="form-label" for="delivery-email">Delivery email</label>
+          <input type="email" id="delivery-email" class="form-input" placeholder="you@email.com" value="${state.email || ''}" autocomplete="email">
           <p class="field-error" role="alert"></p>
         </div>
-      ` : ''}
-      <div class="form-field${needsRiotId ? ' mt-4' : ''}" data-field="delivery-email">
-        <label class="form-label" for="delivery-email">Delivery email</label>
-        <input type="email" id="delivery-email" class="form-input" placeholder="you@email.com" value="${state.email || ''}" autocomplete="email">
-        <p class="field-error" role="alert"></p>
-      </div>
-      <div class="payment-nav-row">
-        <button type="button" class="btn-secondary px-6 py-3" id="btn-step2-back">Back</button>
-        <button type="button" class="btn-primary flex-1 py-3.5" id="btn-step2-next">Continue</button>
-      </div>
+        <div class="payment-nav-row mt-6">
+          <button type="button" class="btn-secondary px-6 py-3" id="btn-step2-back">Back</button>
+          <button type="button" class="btn-primary flex-1 py-3.5" id="btn-step2-next">Continue</button>
+        </div>
+      </section>
     </div>
   `;
 }
@@ -286,7 +294,7 @@ function renderStepPay(order, state, cryptoRates = null, cryptoRatesError = '') 
       <div class="voucher-list">${renderVoucherList(breakdown)}</div>
       <p class="payment-total-voucher">Total voucher value needed: <strong>$${breakdown.reduce((a, b) => a + b, 0)}</strong></p>
 
-      <div class="form-field mt-6" data-field="voucher-code">
+      <div class="payment-field-card form-field mt-6" data-field="voucher-code">
         <label class="form-label" for="voucher-code">Rewarble voucher code</label>
         <input type="text" id="voucher-code" class="form-input" placeholder="Paste your voucher code" autocomplete="off">
         <p class="field-error" role="alert"></p>
@@ -576,7 +584,7 @@ function mountPaymentApp(order) {
   }
 
   function setDiscountError(message) {
-    const field = document.querySelector('.payment-discount-block[data-field="discount-code"]');
+    const field = document.querySelector('.payment-section-card[data-field="discount-code"]');
     if (!field) return;
     field.classList.toggle('is-invalid', Boolean(message));
     const err = field.querySelector('.field-error');

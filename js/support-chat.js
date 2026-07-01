@@ -131,12 +131,11 @@ function buildBanReply() {
 }
 
 function buildDiscountReply() {
-  const code = RIOT_SHOP.discountCode || 'RIOT50';
   return [
-    `Use code ${code} for 50% off your first order.`,
-    'At checkout (step 1 — Select payment method), enter the code in the Discount code box and click Apply.',
-    'Your total updates immediately — voucher amount and crypto price both use the discounted total.',
-    'Copy the code from the welcome popup on site, or type RIOT50 manually.',
+    'First-time shoppers can get 50% off with a promo code.',
+    'At checkout, use the Discount code section on step 1 — enter your code and click Apply.',
+    'Your total updates right away, including voucher amount and crypto price.',
+    'If you received a welcome offer on site, copy the code from there.',
   ].join('\n');
 }
 
@@ -317,7 +316,7 @@ function generateSupportReply(message) {
       '• "Is Riot Shop legit?"',
       '• "How fast is delivery?"',
       '• "What Valorant Points bundles do you have?"',
-      '• "How do I use RIOT50?"',
+      '• "How do discount codes work?"',
     ].join('\n');
     chatState.lastReply = reply;
     return reply;
@@ -538,7 +537,7 @@ function initSupportChat() {
     welcomed = true;
     setTimeout(() => {
       sendAgentReply(
-        "Hi! I'm Riot Shop AI — ask me if we're legit, how delivery works, Valorant Points pricing, or how to use code RIOT50."
+        "Hi! I'm Riot Shop AI — ask me if we're legit, how delivery works, Valorant Points pricing, or how checkout works."
       );
     }, SUPPORT_CHAT.welcomeDelay);
   };

@@ -1495,10 +1495,43 @@ body {
   margin-top: 0.25rem;
 }
 
-.payment-discount-block {
-  margin-bottom: 1.25rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+.payment-checkout-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.payment-section-card {
+  padding: 1.5rem;
+}
+
+.payment-section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.payment-section-sub {
+  font-size: 0.875rem;
+  color: var(--riot-muted);
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.payment-field-card {
+  margin-top: 1rem;
+  padding: 1rem 1.125rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.payment-field-card .form-label {
+  margin-bottom: 0.5rem;
+}
+
+.payment-field-card .form-input {
+  background: rgba(10, 6, 8, 0.55);
 }
 
 .payment-discount-row {
@@ -1536,7 +1569,8 @@ body {
   font-weight: 600;
 }
 
-.payment-discount-block.is-invalid .field-error {
+.payment-section-card.is-invalid .field-error,
+.payment-field-card.is-invalid .field-error {
   margin-top: 0.375rem;
 }
 

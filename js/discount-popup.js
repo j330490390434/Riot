@@ -57,12 +57,12 @@ function getDiscountPopupHtml() {
         </button>
         <p class="discount-popup-eyebrow">First order offer</p>
         <h2 id="discount-popup-title" class="discount-popup-title">${DISCOUNT_POPUP.label}</h2>
-        <p class="discount-popup-text">At checkout, enter this code in the Discount code field (step 1) and click Apply for 50% off.</p>
+        <p class="discount-popup-text">Use this code at checkout for 50% off your first order.</p>
         <div class="discount-popup-code-row">
           <span class="discount-popup-code" id="discount-popup-code">${DISCOUNT_POPUP.code}</span>
           <button type="button" id="discount-popup-copy" class="btn-secondary discount-popup-copy-btn">Copy code</button>
         </div>
-        <a href="/valorant-points" class="btn-primary w-full py-3.5 discount-popup-cta">Shop Valorant Points</a>
+        <a href="/products" class="btn-primary w-full py-3.5 discount-popup-cta">Browse products</a>
         <button type="button" id="discount-popup-dismiss" class="discount-popup-dismiss">No thanks</button>
       </div>
     </div>

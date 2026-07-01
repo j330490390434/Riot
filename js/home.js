@@ -27,5 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal(productsSection);
   }
 
+  const reviewsEl = document.getElementById('home-reviews');
+  if (reviewsEl) {
+    reviewsEl.innerHTML = getFeedbackPreview(6, {
+      title: 'Here are some reviews from our customers',
+      subtitle: 'Real feedback from buyers on Valorant Points, accounts, and delivery.',
+    });
+    initScrollReveal(reviewsEl);
+  }
+
   initScrollReveal(document.querySelector('main'));
 });

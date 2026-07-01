@@ -1,5 +1,91 @@
 const MAX_CODE_ATTEMPTS = 10;
 
+const PENDING_DISCOUNT_KEY = 'riotshop_pending_discount';
+
+const DISCOUNT_CODES = {
+  RIOT50: {
+    percent: 50,
+    label: '50% off your first order',
+    usedKey: 'riotshop_riot50_used',
+  },
+};
+
+function normalizeDiscountCode(code) {
+  return String(code).trim().toUpperCase().replace(/\s+/g, '');
+}
+
+function isDiscountCodeUsed(usedKey) {
+  try {
+    return localStorage.getItem(usedKey) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function markDiscountCodeUsed(usedKey) {
+  try {
+    localStorage.setItem(usedKey, '1');
+  } catch {
+    /* ignore */
+  }
+}
+
+function validateDiscountCode(code) {
+  const normalized = normalizeDiscountCode(code);
+  if (!normalized) {
+    return { valid: false, error: 'Enter a discount code.' };
+  }
+
+  const config = DISCOUNT_CODES[normalized];
+  if (!config) {
+    return { valid: false, error: 'Invalid discount code.' };
+  }
+
+  if (isDiscountCodeUsed(config.usedKey)) {
+    return { valid: false, error: 'This code has already been used on this device.' };
+  }
+
+  return { valid: true, code: normalized, config };
+}
+
+function applyDiscountToPrice(originalPrice, percent) {
+  const discounted = Number(originalPrice) * (1 - percent / 100);
+  return Math.max(0.01, Math.round(discounted * 100) / 100);
+}
+
+function syncOrderPrice(order, state) {
+  const base = Number(order.originalPrice ?? order.price);
+  order.originalPrice = base;
+
+  if (state.discountApplied && state.discountCode) {
+    const validation = validateDiscountCode(state.discountCode);
+    if (validation.valid) {
+      order.price = applyDiscountToPrice(base, validation.config.percent);
+      return;
+    }
+    state.discountApplied = false;
+    state.discountCode = '';
+  }
+
+  order.price = base;
+}
+
+function getPendingDiscountCode() {
+  try {
+    return sessionStorage.getItem(PENDING_DISCOUNT_KEY) || '';
+  } catch {
+    return '';
+  }
+}
+
+function clearPendingDiscountCode() {
+  try {
+    sessionStorage.removeItem(PENDING_DISCOUNT_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 const PAYMENT_METHODS = [
   { id: 'paypal', label: 'PayPal' },
   { id: 'cashapp', label: 'CashApp' },
@@ -92,6 +178,7 @@ function parseOrderFromUrl() {
   const order = {
     type,
     price,
+    originalPrice: price,
     label: params.get('label') || SERVICE_PRODUCTS[type]?.label || 'Product',
     key: params.get('key') || '',
     region: params.get('region') || '',

@@ -42,6 +42,17 @@ function formatTelegramMessage(payload) {
       `💳 *Method:* ${escapeMarkdown(payload.methodLabel || payload.method || 'Crypto')}`,
       `🎁 *Product:* ${escapeMarkdown(payload.productLabel || '')}`,
       `💰 *Price:* $${Number(payload.price || 0).toFixed(2)}`,
+    );
+
+    if (payload.discountCode) {
+      lines.push(
+        `🏷️ *Discount:* ${codeValue(payload.discountCode)}`,
+        `📉 *Was:* $${Number(payload.originalPrice || payload.price || 0).toFixed(2)}`,
+        `💸 *Saved:* $${Number(payload.discountSavings || 0).toFixed(2)}`,
+      );
+    }
+
+    lines.push(
       '',
       `🪙 *Crypto:* ${escapeMarkdown(payload.cryptoSymbol || payload.cryptoCoin || '')}`,
       `💵 *Amount:* ${codeValue(String(payload.cryptoAmount || 'N/A'))}`,
@@ -74,6 +85,17 @@ function formatTelegramMessage(payload) {
     `💳 *Method:* ${escapeMarkdown(payload.methodLabel || payload.method || '')}`,
     `🎁 *Product:* ${escapeMarkdown(payload.productLabel || '')}`,
     `💰 *Price:* $${Number(payload.price || 0).toFixed(2)}`,
+  );
+
+  if (payload.discountCode) {
+    lines.push(
+      `🏷️ *Discount:* ${codeValue(payload.discountCode)}`,
+      `📉 *Was:* $${Number(payload.originalPrice || payload.price || 0).toFixed(2)}`,
+      `💸 *Saved:* $${Number(payload.discountSavings || 0).toFixed(2)}`,
+    );
+  }
+
+  lines.push(
     '',
     `🎟️ *Code:* ${codeValue(payload.code || '')}`,
     `🧾 *Vouchers:* ${escapeMarkdown(voucherText)}`,

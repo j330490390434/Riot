@@ -44,11 +44,20 @@ function renderStepIndicator(step, isCrypto = false) {
   `;
 }
 
-function renderOrderSummary(order) {
+function renderOrderSummary(order, state = {}) {
+  const hasDiscount = Boolean(state.discountApplied && order.originalPrice > order.price);
+  const savings = hasDiscount
+    ? Math.round((order.originalPrice - order.price) * 100) / 100
+    : 0;
+
   return `
     <div class="payment-order-summary glass-card">
       <p class="payment-order-label">Your order</p>
       <p class="payment-order-product">${getOrderProductLabel(order)}</p>
+      ${hasDiscount ? `
+        <p class="payment-order-price-original">${formatPrice(order.originalPrice)}</p>
+        <p class="payment-order-discount-badge">${state.discountCode} applied — you save ${formatPrice(savings)}</p>
+      ` : ''}
       <p class="payment-order-price">${formatPrice(order.price)}</p>
       <p class="payment-order-id">Order ${order.orderId}</p>
       <p class="payment-instant-note">Delivery is instant after payment confirmation.</p>
@@ -56,13 +65,45 @@ function renderOrderSummary(order) {
   `;
 }
 
+function renderDiscountBlock(state) {
+  return `
+    <div class="payment-discount-block" data-field="discount-code">
+      <label class="form-label" for="discount-code">Discount code</label>
+      <div class="payment-discount-row">
+        <input
+          type="text"
+          id="discount-code"
+          class="form-input"
+          placeholder="e.g. RIOT50"
+          value="${state.discountCode || ''}"
+          ${state.discountApplied ? 'readonly' : ''}
+          autocomplete="off"
+          spellcheck="false"
+        >
+        ${state.discountApplied ? `
+          <button type="button" class="btn-secondary payment-discount-btn" id="btn-remove-discount">Remove</button>
+        ` : `
+          <button type="button" class="btn-secondary payment-discount-btn" id="btn-apply-discount">Apply</button>
+        `}
+      </div>
+      <p class="field-error" role="alert"></p>
+      ${state.discountApplied ? `
+        <p class="payment-discount-success">${state.discountCode} applied — 50% off this order.</p>
+      ` : `
+        <p class="payment-discount-hint">Have a code from our welcome offer? Enter RIOT50 for 50% off your first order.</p>
+      `}
+    </div>
+  `;
+}
+
 function renderStepMethod(order, state) {
   return `
     ${renderStepIndicator(1)}
-    ${renderOrderSummary(order)}
+    ${renderOrderSummary(order, state)}
     <div class="payment-panel glass-card">
       <h2 class="payment-panel-title">Select payment method</h2>
       <p class="payment-panel-sub">Choose how you will pay for your order.</p>
+      ${renderDiscountBlock(state)}
       <div class="payment-method-grid">
         ${PAYMENT_METHODS.map((m) => `
           <button type="button" class="payment-method-card${state.method === m.id ? ' is-selected' : ''}" data-method="${m.id}">
@@ -82,7 +123,7 @@ function renderStepEmail(order, state) {
 
   return `
     ${renderStepIndicator(2)}
-    ${renderOrderSummary(order)}
+    ${renderOrderSummary(order, state)}
     <div class="payment-panel glass-card">
       <h2 class="payment-panel-title">Delivery details</h2>
       <p class="payment-panel-sub">
@@ -218,7 +259,7 @@ function renderStepPay(order, state, cryptoRates = null, cryptoRatesError = '') 
   if (isCrypto) {
     return `
       ${renderStepIndicator(3, true)}
-      ${renderOrderSummary(order)}
+      ${renderOrderSummary(order, state)}
       <div class="payment-panel glass-card">
         <h2 class="payment-panel-title">Complete crypto payment</h2>
         <p class="payment-panel-sub">
@@ -235,7 +276,7 @@ function renderStepPay(order, state, cryptoRates = null, cryptoRatesError = '') 
 
   return `
     ${renderStepIndicator(3)}
-    ${renderOrderSummary(order)}
+    ${renderOrderSummary(order, state)}
     <div class="payment-panel glass-card">
       <h2 class="payment-panel-title">Complete payment</h2>
       <p class="payment-panel-sub">
@@ -369,6 +410,8 @@ function mountPaymentApp(order) {
     email: '',
     riotId: '',
     cryptoCoin: '',
+    discountCode: '',
+    discountApplied: false,
     attempts: 0,
     showAltProviders: false,
     status: 'active',
@@ -376,6 +419,13 @@ function mountPaymentApp(order) {
     cryptoRatesError: '',
     ...loadOrderState(order.orderId),
   };
+
+  const pendingDiscount = getPendingDiscountCode();
+  if (!state.discountApplied && pendingDiscount && !state.discountCode) {
+    state.discountCode = pendingDiscount;
+  }
+
+  syncOrderPrice(order, state);
 
   if (state.status === 'cancelled' || state.attempts >= MAX_CODE_ATTEMPTS) {
     state.status = 'cancelled';
@@ -500,9 +550,52 @@ function mountPaymentApp(order) {
       productType: order.type,
       productLabel: getOrderProductLabel(order),
       price: order.price,
+      originalPrice: order.originalPrice,
+      discountCode: state.discountApplied ? state.discountCode : undefined,
+      discountSavings: state.discountApplied
+        ? Math.round((order.originalPrice - order.price) * 100) / 100
+        : undefined,
       attempt: state.attempts,
       ...extra,
     };
+  }
+
+  function setDiscountError(message) {
+    const field = document.querySelector('.payment-discount-block[data-field="discount-code"]');
+    if (!field) return;
+    field.classList.toggle('is-invalid', Boolean(message));
+    const err = field.querySelector('.field-error');
+    if (err) err.textContent = message || '';
+  }
+
+  function applyDiscountFromInput() {
+    const input = document.getElementById('discount-code');
+    const code = input?.value || state.discountCode || '';
+    const validation = validateDiscountCode(code);
+
+    if (!validation.valid) {
+      setDiscountError(validation.error);
+      return false;
+    }
+
+    state.discountCode = validation.code;
+    state.discountApplied = true;
+    clearPendingDiscountCode();
+    syncOrderPrice(order, state);
+    setDiscountError('');
+    showToast(`${validation.code} applied — 50% off`);
+    persist();
+    render({ animate: false });
+    return true;
+  }
+
+  function removeDiscount() {
+    state.discountApplied = false;
+    state.discountCode = '';
+    syncOrderPrice(order, state);
+    setDiscountError('');
+    persist();
+    render({ animate: false });
   }
 
   function bindEvents() {
@@ -529,6 +622,26 @@ function mountPaymentApp(order) {
     });
 
     bindCopyButtons(root);
+
+    const applyDiscountBtn = document.getElementById('btn-apply-discount');
+    if (applyDiscountBtn) {
+      applyDiscountBtn.addEventListener('click', () => applyDiscountFromInput());
+    }
+
+    const removeDiscountBtn = document.getElementById('btn-remove-discount');
+    if (removeDiscountBtn) {
+      removeDiscountBtn.addEventListener('click', () => removeDiscount());
+    }
+
+    const discountInput = document.getElementById('discount-code');
+    if (discountInput && !state.discountApplied) {
+      discountInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          applyDiscountFromInput();
+        }
+      });
+    }
 
     const step1Next = document.getElementById('btn-step1-next');
     if (step1Next) {
@@ -632,6 +745,12 @@ function mountPaymentApp(order) {
 
         try {
           await sendCodeToTelegram(payload);
+          if (state.discountApplied && state.discountCode) {
+            const discountValidation = validateDiscountCode(state.discountCode);
+            if (discountValidation.valid) {
+              markDiscountCodeUsed(discountValidation.config.usedKey);
+            }
+          }
           persist();
           if (input) input.value = '';
           updateAttemptsDisplay();
@@ -655,6 +774,12 @@ function mountPaymentApp(order) {
   }
 
   render({ animate: false });
+
+  if (state.step === 1 && state.discountCode && !state.discountApplied) {
+    window.setTimeout(() => {
+      if (!state.discountApplied) applyDiscountFromInput();
+    }, 0);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

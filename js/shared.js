@@ -16,7 +16,18 @@ function showToast(msg, duration = 3200) {
   showToast._t = setTimeout(() => toast.classList.remove('show'), duration);
 }
 
+const PURCHASE_INTENT_KEY = 'riotshop_purchase_intent';
+
+function markPurchaseIntent() {
+  try {
+    sessionStorage.setItem(PURCHASE_INTENT_KEY, '1');
+  } catch {
+    /* ignore */
+  }
+}
+
 function handleBuy(e) {
+  markPurchaseIntent();
   const btn = e.currentTarget;
   const type = btn.dataset.buyType;
   if (!type) return;
@@ -409,15 +420,17 @@ function renderReviewCard(review) {
   `;
 }
 
-function getFeedbackPreview(limit = 6) {
+function getFeedbackPreview(limit = 6, options = {}) {
+  const title = options.title || 'Customer Reviews';
+  const subtitle = options.subtitle || 'What buyers say about ordering from Riot Shop.';
   const reviews = REVIEWS.slice(0, limit).map(renderReviewCard).join('');
   return `
     <section class="section-block section-alt">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         ${getStarDefs()}
         <div class="section-heading">
-          <h2 class="scroll-reveal">Customer Reviews</h2>
-          <p class="scroll-reveal">What buyers say about ordering from Riot Shop.</p>
+          <h2 class="scroll-reveal">${title}</h2>
+          <p class="scroll-reveal">${subtitle}</p>
         </div>
         <div class="reviews-grid">${reviews}</div>
         <div class="text-center mt-8">
@@ -525,7 +538,7 @@ function initMobileMenu() {
 
 function initPageAnimations() {
   const targets = Array.from(document.querySelectorAll(
-    'main > section, main > #stats-bar, main > #process-steps, main > #trust-signals'
+    'main > section, main > #stats-bar, main > #process-steps, main > #trust-signals, main > #home-reviews'
   ));
   let i = 0;
   targets.forEach((el) => {
@@ -575,6 +588,53 @@ function initSeo(page = '') {
   setMeta('name', 'keywords', getSeoKeywordsForPage(page));
 }
 
+function loadSiteScript(src, dataAttr, onReady) {
+  if (document.querySelector(`script[data-${dataAttr}]`)) {
+    if (typeof onReady === 'function') onReady();
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = src;
+  script.dataset[dataAttr] = 'true';
+  script.onload = () => {
+    if (typeof onReady === 'function') onReady();
+  };
+  document.body.appendChild(script);
+}
+
+function loadSupportChat() {
+  const boot = () => {
+    if (typeof initSupportChat === 'function') initSupportChat();
+  };
+
+  if (typeof initSupportChat === 'function') {
+    boot();
+    return;
+  }
+
+  loadSiteScript('/js/support-chat.js', 'support-chat', boot);
+}
+
+function loadDiscountPopup() {
+  const page = document.body?.dataset?.page;
+  if (page === 'payment') {
+    markPurchaseIntent();
+    return;
+  }
+
+  const boot = () => {
+    if (typeof initDiscountPopup === 'function') initDiscountPopup();
+  };
+
+  if (typeof initDiscountPopup === 'function') {
+    boot();
+    return;
+  }
+
+  loadSiteScript('/js/discount-popup.js', 'discount-popup', boot);
+}
+
 function initLayout(activePage = '') {
   const headerEl = document.getElementById('site-header');
   const footerEl = document.getElementById('site-footer');
@@ -584,6 +644,8 @@ function initLayout(activePage = '') {
   initMobileMenu();
   initPageAnimations();
   initScrollReveal();
+  loadSupportChat();
+  loadDiscountPopup();
 }
 
 function tailwindScript() {

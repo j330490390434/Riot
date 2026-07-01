@@ -2,6 +2,8 @@ const RIOT_SHOP = {
   siteName: 'Riot Shop',
   siteUrl: 'https://riotshop.xyz',
   ogImage: 'https://riotshop.xyz/assets/logo.png',
+  supportPath: '/reach-us',
+  discountCode: 'RIOT50',
 
   seoKeywords: {
     global: [
@@ -445,5 +447,61 @@ const FAQ_ITEMS = [
   {
     q: 'Do you offer custom Valorant Points amounts?',
     a: 'Yes. Send us a message through Reach Us with the amount you need and we will provide a one-time checkout link.',
+  },
+  {
+    q: 'Is Riot Shop legit?',
+    a: 'Yes. Riot Shop has completed 5,000+ orders with a 4.9 average rating. We offer transparent pricing, instant delivery after payment, a full refund guarantee, and responsive support through Reach Us.',
+  },
+  {
+    q: 'Why are your Valorant Points cheaper than in-game?',
+    a: 'We sell Valorant Points as gift card codes at discounted bundle pricing compared to the official store. You redeem the code in-game — same points, lower price.',
+  },
+  {
+    q: 'What payment methods do you accept?',
+    a: 'Checkout supports PayPal, card, bank transfer, and crypto. Pick your preferred method on the payment page after selecting a product.',
+  },
+  {
+    q: 'How do I redeem Valorant Points?',
+    a: 'After checkout, you receive a gift card code by email. Go to redeem.riotgames.com or redeem in the Valorant client under Valorant Points → Prepaid Cards & Codes, then enter your code.',
+  },
+  {
+    q: 'What regions are accounts available in?',
+    a: 'We list full-access accounts in North America, Europe, Latin America, Asia/Pacific, and Korea. Use the region tabs on the Accounts page to browse listings for your region.',
+  },
+  {
+    q: 'What does lifetime warranty mean?',
+    a: 'Every account includes a lifetime warranty. If you have an issue with an account you purchased from us, contact Reach Us and we will help fix it or offer a refund.',
+  },
+  {
+    q: 'How does the gun buddy service work?',
+    a: 'Order the Riot Gun Buddy Service, enter your Riot ID and delivery email at checkout, and we add the gun buddy to your account. No login info required — just your Riot ID.',
+  },
+  {
+    q: 'How does the unban service work?',
+    a: 'Order Unban Service, provide your Riot ID and email at checkout, and our team handles professional unban assistance. No password or login details needed.',
+  },
+  {
+    q: 'Can I get a refund?',
+    a: 'Yes. If anything goes wrong with your order, contact us through Reach Us. We will make it right or issue a full refund. Accounts are also covered by our lifetime warranty.',
+  },
+  {
+    q: 'Do I need to share my Riot login?',
+    a: 'No for Valorant Points — you only need a delivery email. Gun buddy and unban services only need your Riot ID and email, not your password. Accounts ship with full login details after purchase.',
+  },
+  {
+    q: 'What does full access mean on an account?',
+    a: 'Full access means you receive the account credentials and the original email used to create the Riot account. You can change the password, update recovery info, and secure the account yourself.',
+  },
+  {
+    q: 'How do I use the RIOT50 discount code?',
+    a: 'On the checkout page (step 1 — Select payment method), enter RIOT50 in the Discount code field and click Apply. Your order total drops by 50% before you pay. The code works once per device after your first completed order.',
+  },
+  {
+    q: 'How do I contact support?',
+    a: 'Use the Reach Us page to send a message about orders, custom Valorant Points amounts, refunds, or account questions. You can also use the Riot Shop AI chat on any page for quick answers.',
+  },
+  {
+    q: 'Is my payment secure?',
+    a: 'Yes. Checkout uses secure payment processing. We only collect the details needed to deliver your order — such as your email and, for services, your Riot ID.',
   },
 ];

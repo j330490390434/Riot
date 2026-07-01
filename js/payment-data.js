@@ -38,7 +38,7 @@ function validateDiscountCode(code) {
 
   const config = DISCOUNT_CODES[normalized];
   if (!config) {
-    return { valid: false, error: 'Invalid discount code.' };
+    return { valid: false, error: 'Invalid code' };
   }
 
   if (isDiscountCodeUsed(config.usedKey)) {
@@ -142,7 +142,19 @@ function getOrderProductLabel(order) {
 }
 
 function getVoucherBreakdown(price) {
-  const target = Math.ceil(Number(price));
+  const amount = Number(price);
+  if (!Number.isFinite(amount) || amount <= 0) return [];
+
+  const target = Math.ceil(amount);
+
+  if (target <= 5) {
+    return [5];
+  }
+
+  if (target < 10) {
+    return [10];
+  }
+
   const tiers = [...REWARBLE_VOUCHER_TIERS].sort((a, b) => b - a);
   const result = [];
   let remaining = target;
@@ -155,7 +167,9 @@ function getVoucherBreakdown(price) {
   }
 
   if (remaining > 0) {
-    const cover = tiers.filter((t) => t >= remaining).pop() || 5;
+    const cover = [...REWARBLE_VOUCHER_TIERS]
+      .sort((a, b) => a - b)
+      .find((t) => t >= remaining) || 5;
     result.push(cover);
   }
 

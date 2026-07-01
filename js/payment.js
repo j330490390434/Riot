@@ -584,10 +584,13 @@ function mountPaymentApp(order) {
   }
 
   function setDiscountError(message) {
-    const field = document.querySelector('.payment-section-card[data-field="discount-code"]');
-    if (!field) return;
-    field.classList.toggle('is-invalid', Boolean(message));
-    const err = field.querySelector('.field-error');
+    const section = document.querySelector('.payment-section-card[data-field="discount-code"]');
+    if (!section) return;
+    const fieldCard = section.querySelector('.payment-field-card');
+    const isInvalid = Boolean(message);
+    section.classList.toggle('is-invalid', isInvalid);
+    fieldCard?.classList.toggle('is-invalid', isInvalid);
+    const err = section.querySelector('.field-error');
     if (err) err.textContent = message || '';
   }
 
@@ -597,7 +600,11 @@ function mountPaymentApp(order) {
     const validation = validateDiscountCode(code);
 
     if (!validation.valid) {
-      setDiscountError(validation.error);
+      const msg = validation.error || 'Invalid code';
+      setDiscountError(msg);
+      if (msg === 'Invalid code') {
+        showToast('Invalid code');
+      }
       return false;
     }
 
@@ -658,6 +665,7 @@ function mountPaymentApp(order) {
 
     const discountInput = document.getElementById('discount-code');
     if (discountInput && !state.discountApplied) {
+      discountInput.addEventListener('input', () => setDiscountError(''));
       discountInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
           event.preventDefault();
